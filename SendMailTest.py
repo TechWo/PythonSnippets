@@ -31,7 +31,7 @@ class DailyTest:
         if self.os_name == "android":
             print "****Starting Android emulator... ****\n"
             try:
-                os.system('/Users/HaydeML/Library/Android/sdk/tools/emulator -avd Nexus_5X_API_23 &')
+                os.system('$HOME/Library/Android/sdk/tools/emulator -avd Nexus_5X_API_23 &')
             except:
                 print "Unexpected error:", sys.exc_info()
             else:
@@ -42,18 +42,18 @@ class DailyTest:
     def run_tests(self):
         print "****Running tests... ****\n"
         #time.sleep(10)
-        if self.os_name == "android":          
+        if self.os_name == "android":
             try:
-                os.chdir("/Users/HaydeML/Documents/Rever/AppiumScripts")
+                os.chdir("%s/Documents/Rever/AppiumScripts" % os.environ["HOME"])
                 call(["robot","TestReverAndroid.robot"])
             except:
                 print "Unexpected error:", sys.exc_info()
             else:
                 print "****Waiting****"
                 time.sleep(10)
-        elif self.os_name == "ios":            
+        elif self.os_name == "ios":
             try:
-                os.chdir("/Users/HaydeML/Documents/Rever/AppiumScripts")
+                os.chdir("%s/Documents/Rever/AppiumScripts" % os.environ["HOME"])
                 call(["robot","TestRever.Robot"])
             except:
                 print "Unexpected error:", sys.exc_info()
@@ -65,7 +65,7 @@ class DailyTest:
         print "Sending email to "+ self.email_address+"...\n"
         email_subject = 'Results ' + self.os_name + ' ' + time.strftime("%d:%m:%Y")
         email_body = 'Hi There, \n Please find attached the report for ' + self.os_name + ' tests performed on ' + time.strftime("%d:%m:%Y")
-        email_attachment = '/Users/HaydeML/Documents/Rever/AppiumScripts/report.html'
+        email_attachment = '%s/Documents/Rever/AppiumScripts/report.html' % os.environ["HOME"]
         
         try:
             sender.send_mail_with_attachment("correo","pwd", self.email_address, email_subject, email_body, email_attachment)
